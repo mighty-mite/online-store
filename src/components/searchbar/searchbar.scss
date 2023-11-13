@@ -1,0 +1,24 @@
+@import '../../commonStyles/variables.scss';
+@import '../../commonStyles/mixins.scss';
+
+.searchbar {
+  width: 100%;
+  height: 52px;
+  padding: 0px 15px;
+  background: #fcfcfc;
+  border: 1px solid #dcdcdc;
+  box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 7px;
+  background-image: url('../../assets/lens.svg');
+  background-repeat: no-repeat;
+  background-position: 95%;
+  margin-bottom: 20px;
+
+  &::placeholder {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.1px;
+    color: $second-text;
+  }
+}

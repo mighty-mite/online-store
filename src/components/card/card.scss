@@ -1,0 +1,63 @@
+@import '../../commonStyles/variables.scss';
+@import '../../commonStyles/mixins.scss';
+
+.card {
+  transition: all ease-in-out 0.3s;
+  background-color: $white;
+  border-radius: 10px;
+  padding: 20px;
+  &:hover {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card__heading {
+  @include text-16-24;
+  margin-bottom: 10px;
+}
+
+.card__img {
+  width: 100%;
+  margin-bottom: 10px;
+  display: block;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card__brand,
+.card__price,
+.card__color,
+.card__amount {
+  @include text-16-28;
+  font-weight: 500;
+  color: $text-dark;
+}
+
+.card.list-style {
+  display: flex;
+  background: $white;
+  border: 1px solid #dedede;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+  padding: 20px 25px 25px 22px;
+}
+
+.card.list-style .card__img {
+  width: 210px;
+}
+
+.card.list-style .card__text {
+  margin-top: 19px;
+}
+
+@media (max-width: 550px) {
+  .card.list-style {
+    flex-direction: column;
+  }
+
+  .card.list-style .card__img {
+    height: auto;
+    margin-bottom: 0;
+    align-self: center;
+  }
+}

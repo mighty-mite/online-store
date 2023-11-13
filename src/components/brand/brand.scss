@@ -1,0 +1,92 @@
+@import '../../commonStyles/variables.scss';
+@import '../../commonStyles/mixins.scss';
+
+.brand {
+  background: $white;
+  border: 1px solid $border;
+  border-radius: 5px;
+  // padding: 30px 35px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand__heading {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: $text-dark;
+  margin-bottom: 20px;
+  padding: 25px 0 0 0;
+}
+
+.brand__list {
+  padding: 0 30px 20px 30px;
+  overflow-y: auto;
+}
+
+.brand__list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.brand__list::-webkit-scrollbar-thumb {
+  background-color: $text-dark;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.brand__wrapper {
+  color: $second-text;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 28px;
+  letter-spacing: 0.2px;
+
+  display: flex;
+  justify-content: space-between;
+
+  text-align: start;
+}
+
+.brand__option {
+  display: none;
+}
+
+.brand__label {
+  padding-left: 40px;
+  cursor: pointer;
+  margin-bottom: 14px;
+
+  &:hover {
+    color: $link;
+  }
+}
+
+.brand__option:not(:checked) + .brand__label {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 2px solid $inner-border;
+    border-radius: 5px;
+    left: 0;
+  }
+}
+
+.brand__option:checked + .brand__label {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    background-image: url('../../assets/checked.svg');
+    left: 0;
+  }
+}

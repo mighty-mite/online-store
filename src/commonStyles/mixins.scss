@@ -1,0 +1,117 @@
+@mixin text-16-28 {
+    font-style: normal;
+    line-height: 28px;
+    font-size: 16px;
+}
+
+@mixin text-16-24 {
+    font-style: normal;
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-dark;
+    letter-spacing: 0.1px;
+}
+
+@mixin text-24-36 {
+    font-style: normal;
+    line-height: 36px;
+    font-size: 24px;
+    letter-spacing: 0.2px;
+}
+
+@mixin text-24-38 {
+    font-style: normal;
+    line-height: 38px;
+    font-size: 24px;
+    letter-spacing: 0.2px;
+}
+
+@mixin text-40-57 {
+    font-style: normal;
+    line-height: 40px;
+    font-size: 57px;
+    letter-spacing: 0.2px;
+}
+
+@mixin second-heading {
+    font-style: normal;
+    line-height: 36px;
+    font-size: 24px;
+    font-weight: 700;
+    color: $text-dark;
+    text-transform: capitalize;
+    letter-spacing: 0.1px;
+}
+
+@mixin text-14-28 {
+    font-style: normal;
+    line-height: 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $link-inactive;
+    letter-spacing: 0.2px;
+}
+
+@mixin text-20-30 {
+    font-style: normal;
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: 400;
+    color: $text-dark;
+    letter-spacing: 0.2px;
+}
+
+@mixin button {
+    // background-color: $white;
+    // color: $link;
+    padding: 14px 46px;
+    width: 179px;
+    min-height: 56px;
+    font-size: 16px;
+    line-height: 24px;
+    box-sizing: border-box;
+    border: none;
+    font-weight: 700;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition-duration: 300ms;
+    transition-timing-function: linear;
+
+    &:hover {
+        background-color: grey;
+        color: $text-dark
+    }
+}
+
+@mixin center {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+@mixin transparent-button {
+    min-height: 54px;
+    box-sizing: border-box;
+    border: 1px solid $white;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $white;
+    padding: 15px 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    transition-duration: 300ms;
+    transition-timing-function: linear;
+        &:hover {
+            background:rgba(0, 0, 0, 0.7);
+
+        }
+}
