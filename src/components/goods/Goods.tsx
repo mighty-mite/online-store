@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Service from '../../service/Service';
 import Card from '../card/Card';
 import Spinner from '../spinner/Spinner';
+import filter from '../../service/Filter';
 import './goods.scss';
 
 interface Product {
@@ -20,23 +21,31 @@ interface Product {
 
 interface Props {
   search: string;
+  brand: string[];
+  category: string[];
 }
 
 function Goods(props: Props) {
   const [cards, setCards] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const { search } = props;
+  const { search, brand, category } = props;
 
   const service = new Service();
 
   const onProductsLoaded = (products: Product[]) => {
-    setCards(() => [...products]);
+    const filtered = filter(products, brand, category);
+    setCards(() => [...filtered]);
     setLoading(() => false);
   };
 
   const onRequest = () => {
-    service.getProducts(search).then(onProductsLoaded).catch();
+    service
+      .getProducts(search)
+      .then((data) => {
+        onProductsLoaded(data);
+      })
+      .catch();
   };
 
   useEffect(() => {
@@ -47,7 +56,7 @@ function Goods(props: Props) {
   useEffect(() => {
     onRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, brand, category]);
 
   const renderCards = (arr: Product[]) => {
     const items = arr.map((card) => {

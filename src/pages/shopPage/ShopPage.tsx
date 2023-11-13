@@ -42,7 +42,7 @@ function ShopPage() {
           <Category categoryHandler={categoryHandler} />
           <Brand brandHandler={brandHandler} />
         </div>
-        <Goods search={search} />
+        <Goods brand={brand} category={category} search={search} />
       </div>
     </div>
   );

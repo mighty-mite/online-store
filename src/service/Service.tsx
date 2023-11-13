@@ -13,7 +13,7 @@ interface Product {
 }
 
 class Service {
-  apiBase = 'https://dummyjson.com/products/';
+  apiBase = 'https://dummyjson.com/products';
 
   // eslint-disable-next-line class-methods-use-this
   getResource = async (url: string) => {
@@ -27,12 +27,12 @@ class Service {
   };
 
   getAllCategories = async () => {
-    const res = await this.getResource(`${this.apiBase}categories`);
+    const res = await this.getResource(`${this.apiBase}/categories`);
     return res;
   };
 
   getAllBrands = async (): Promise<string[]> => {
-    const res = await this.getResource(this.apiBase);
+    const res = await this.getResource(`${this.apiBase}?limit=100&skip=0`);
     const set = new Set();
     res.products.forEach((item: Product) => set.add(item.brand));
     return Array.from(set) as string[];
@@ -40,7 +40,7 @@ class Service {
 
   getProducts = async (query: string, offset = 0, limit = 100) => {
     const res = await this.getResource(
-      `${this.apiBase}search?q=${query}&limit=${limit}&skip=${offset}`
+      `${this.apiBase}/search?q=${query}&limit=${limit}&skip=${offset}`
     );
     return res.products;
   };
