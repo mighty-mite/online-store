@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Pagination from '@mui/material/Pagination';
 import Service from '../../service/Service';
 import Card from '../card/Card';
 import Spinner from '../spinner/Spinner';
@@ -28,6 +29,9 @@ interface Props {
 function Goods(props: Props) {
   const [cards, setCards] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [offset, setOffset] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [currentPage, setCurrentPage] = useState(2);
 
   const { search, brand, category } = props;
 
@@ -43,7 +47,9 @@ function Goods(props: Props) {
     service
       .getProducts(search)
       .then((data) => {
-        onProductsLoaded(data);
+        onProductsLoaded(data.products);
+        setTotalItems(data.total);
+        setOffset(0);
       })
       .catch();
   };
@@ -57,6 +63,14 @@ function Goods(props: Props) {
     onRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, brand, category]);
+
+  useEffect(() => {
+    service.getProducts(search, offset).then((data) => {
+      onProductsLoaded(data.products);
+      setTotalItems(data.total);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset]);
 
   const renderCards = (arr: Product[]) => {
     const items = arr.map((card) => {
@@ -80,6 +94,10 @@ function Goods(props: Props) {
   const content = renderCards(cards);
 
   const spinner = loading ? <Spinner /> : null;
+
+  const handler = (event: React.ChangeEvent<unknown>, page: number) => {
+    setOffset(() => 20 * page - 20);
+  };
 
   return (
     <div className="goods">
@@ -105,7 +123,16 @@ function Goods(props: Props) {
         {content}
         {spinner}
       </div>
-      {/* <Pagination/> */}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Pagination
+          page={offset === 0 ? 1 : offset / 20 + 1}
+          onChange={handler}
+          color="primary"
+          size="large"
+          count={Math.ceil(totalItems / 20)}
+          shape="rounded"
+        />
+      </div>
     </div>
   );
 }

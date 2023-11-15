@@ -38,11 +38,11 @@ class Service {
     return Array.from(set) as string[];
   };
 
-  getProducts = async (query: string, offset = 0, limit = 100) => {
+  getProducts = async (query: string, offset = 0, limit = 20) => {
     const res = await this.getResource(
       `${this.apiBase}/search?q=${query}&limit=${limit}&skip=${offset}`
     );
-    return res.products;
+    return res;
   };
 }
 
