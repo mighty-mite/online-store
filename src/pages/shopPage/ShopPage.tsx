@@ -31,7 +31,7 @@ function ShopPage() {
   };
 
   const searchHandler = (str: string) => {
-    setSearch(() => str);
+    setSearch(() => str.toLowerCase());
   };
 
   return (

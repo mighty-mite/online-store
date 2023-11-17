@@ -26,8 +26,9 @@ interface Options {
 //   price: [100, 1000]
 // }
 
-function filter(arr: Product[], brand: string[], category: string[]) {
-  const filteredByBrand = arr.filter((item) => {
+function filter(arr: Product[], brand: string[], category: string[], search: string) {
+  const filteredBySearch = arr.filter((item) => item.description.toLowerCase().includes(search) || item.title.toLowerCase().includes(search) || item.brand.toLowerCase().includes(search) || item.category.toLowerCase().includes(search));
+  const filteredByBrand = filteredBySearch.filter((item) => {
     if (brand.length === 0) return arr;
     return brand.includes(item.brand);
   });

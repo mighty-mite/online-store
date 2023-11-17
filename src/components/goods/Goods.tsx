@@ -27,29 +27,38 @@ interface Props {
 }
 
 function Goods(props: Props) {
-  const [cards, setCards] = useState<Product[]>([]);
+  const CARDS_PER_PAGE = 20;
+  const [, setAllProducts] = useState<Product[]>([]);
+  const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
+  const [cardsOnPage, setCardsOnPage] = useState<Product[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
-  const [currentPage, setCurrentPage] = useState(2);
+  const [skip, setSkip] = useState(0);
 
   const { search, brand, category } = props;
 
   const service = new Service();
 
   const onProductsLoaded = (products: Product[]) => {
-    const filtered = filter(products, brand, category);
-    setCards(() => [...filtered]);
+    const filtered = filter(products, brand, category, search);
+    setProductsFiltered(filtered);
+
+    const visibleItems = filtered.filter((item, i) => i < CARDS_PER_PAGE);
+
+    setCardsOnPage(() => [...visibleItems]);
     setLoading(() => false);
   };
 
   const onRequest = () => {
     service
-      .getProducts(search)
+      .getProducts()
       .then((data) => {
+
+        setAllProducts(data.products);
+
         onProductsLoaded(data.products);
-        setTotalItems(data.total);
-        setOffset(0);
+
       })
       .catch();
   };
@@ -61,16 +70,15 @@ function Goods(props: Props) {
 
   useEffect(() => {
     onRequest();
+    setOffset(0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, brand, category]);
 
+
   useEffect(() => {
-    service.getProducts(search, offset).then((data) => {
-      onProductsLoaded(data.products);
-      setTotalItems(data.total);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset]);
+    const visibleItems = productsFiltered.filter((item, i) => i >= offset && i < offset + CARDS_PER_PAGE)
+    setCardsOnPage(visibleItems)
+  }, [offset])
 
   const renderCards = (arr: Product[]) => {
     const items = arr.map((card) => {
@@ -91,12 +99,12 @@ function Goods(props: Props) {
     return <>{items}</>;
   };
 
-  const content = renderCards(cards);
+  const content = renderCards(cardsOnPage);
 
   const spinner = loading ? <Spinner /> : null;
 
   const handler = (event: React.ChangeEvent<unknown>, page: number) => {
-    setOffset(() => 20 * page - 20);
+    setOffset(() => CARDS_PER_PAGE * page - CARDS_PER_PAGE);
   };
 
   return (
@@ -125,11 +133,11 @@ function Goods(props: Props) {
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Pagination
-          page={offset === 0 ? 1 : offset / 20 + 1}
+          page={offset === 0 ? 1 : offset / CARDS_PER_PAGE + 1}
           onChange={handler}
           color="primary"
           size="large"
-          count={Math.ceil(totalItems / 20)}
+          count={Math.ceil(productsFiltered.length / CARDS_PER_PAGE)}
           shape="rounded"
         />
       </div>
