@@ -24,6 +24,7 @@ interface Props {
   search: string;
   brand: string[];
   category: string[];
+  price: number[];
 }
 
 function Goods(props: Props) {
@@ -34,14 +35,13 @@ function Goods(props: Props) {
 
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
-  const [skip, setSkip] = useState(0);
 
-  const { search, brand, category } = props;
+  const { search, brand, category, price } = props;
 
   const service = new Service();
 
   const onProductsLoaded = (products: Product[]) => {
-    const filtered = filter(products, brand, category, search);
+    const filtered = filter(products, brand, category, search, price);
     setProductsFiltered(filtered);
 
     const visibleItems = filtered.filter((item, i) => i < CARDS_PER_PAGE);
@@ -54,11 +54,9 @@ function Goods(props: Props) {
     service
       .getProducts()
       .then((data) => {
-
         setAllProducts(data.products);
 
         onProductsLoaded(data.products);
-
       })
       .catch();
   };
@@ -70,15 +68,17 @@ function Goods(props: Props) {
 
   useEffect(() => {
     onRequest();
-    setOffset(0)
+    setOffset(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, brand, category]);
-
+  }, [search, brand, category, price]);
 
   useEffect(() => {
-    const visibleItems = productsFiltered.filter((item, i) => i >= offset && i < offset + CARDS_PER_PAGE)
-    setCardsOnPage(visibleItems)
-  }, [offset])
+    const visibleItems = productsFiltered.filter((item, i) => {
+      return i >= offset && i < offset + CARDS_PER_PAGE;
+    });
+    setCardsOnPage(visibleItems);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset]);
 
   const renderCards = (arr: Product[]) => {
     const items = arr.map((card) => {

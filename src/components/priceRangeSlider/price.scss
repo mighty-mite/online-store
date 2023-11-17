@@ -1,0 +1,50 @@
+.MuiSlider-root {
+  width: 275px
+}
+
+.MuiSlider-rail {
+  background-color: #E6E6E6;
+}
+
+.MuiSlider-track {
+  background-color: #2DC071;
+  color: #2DC071;
+}
+
+.MuiSlider-thumb {
+  background-color: #2DC071;
+}
+
+.price {
+  border: 1px solid #E8E8E8;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.price__container {
+  display: flex;
+}
+
+.price__input {
+  width: 129px;
+  height: 58px;
+  border: 1px solid #E0E0E0;
+  border-radius: 5px;
+  outline: none;
+  line-height: 16px;
+  text-align: center;
+  font-family: 'Roboto';
+}
+
+.price__from {
+  margin-right: 16px;
+}
+
+.price__heading {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #252B42;
+  margin-bottom: 20px;
+  padding: 25px 0 0 0;
+}
