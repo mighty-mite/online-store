@@ -20,7 +20,7 @@ export default function PriceRangeSlider(props: Props) {
       <h2 className="price__heading">Filter by price</h2>
       <Slider
         min={20}
-        max={1000}
+        max={3000}
         classes={{}}
         getAriaLabel={() => 'Temperature range'}
         value={value}

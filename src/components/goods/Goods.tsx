@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Pagination from '@mui/material/Pagination';
 import Service from '../../service/Service';
 import Card from '../card/Card';
@@ -29,7 +29,7 @@ interface Props {
 
 function Goods(props: Props) {
   const CARDS_PER_PAGE = 20;
-  const [, setAllProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [cardsOnPage, setCardsOnPage] = useState<Product[]>([]);
 
@@ -38,47 +38,52 @@ function Goods(props: Props) {
 
   const { search, brand, category, price } = props;
 
-  const service = new Service();
+  const onProductsLoaded = useCallback(
+    (products: Product[]) => {
+      const filtered = filter(products, brand, category, search, price);
+      setProductsFiltered(filtered);
 
-  const onProductsLoaded = (products: Product[]) => {
-    const filtered = filter(products, brand, category, search, price);
-    setProductsFiltered(filtered);
+      const visibleItems = filtered.filter((item, i) => i < CARDS_PER_PAGE);
 
-    const visibleItems = filtered.filter((item, i) => i < CARDS_PER_PAGE);
+      setCardsOnPage(() => [...visibleItems]);
+      setLoading(() => false);
+    },
+    [brand, search, category, price]
+  );
 
-    setCardsOnPage(() => [...visibleItems]);
-    setLoading(() => false);
-  };
-
-  const onRequest = () => {
+  const getData = useCallback(() => {
+    const service = new Service();
     service
       .getProducts()
       .then((data) => {
         setAllProducts(data.products);
-
-        onProductsLoaded(data.products);
       })
       .catch();
-  };
-
-  useEffect(() => {
-    onRequest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    onRequest();
-    setOffset(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, brand, category, price]);
+    getData();
+  }, [getData]);
 
   useEffect(() => {
-    const visibleItems = productsFiltered.filter((item, i) => {
+    onProductsLoaded(allProducts);
+    setOffset(0);
+  }, [search, brand, category, price, allProducts, onProductsLoaded]);
+
+  useEffect(() => {
+    const visibleItems = productsFiltered.filter((_item, i) => {
       return i >= offset && i < offset + CARDS_PER_PAGE;
     });
     setCardsOnPage(visibleItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset]);
+  }, [offset, productsFiltered]);
+
+  const getMinMaxPrice = (arr: Product[]) => {
+    const prices = new Set<number>();
+    arr.forEach((item) => {
+      prices.add(item.price);
+    });
+    return [Math.min(...prices), Math.max(...prices)];
+  };
 
   const renderCards = (arr: Product[]) => {
     const items = arr.map((card) => {
@@ -103,7 +108,7 @@ function Goods(props: Props) {
 
   const spinner = loading ? <Spinner /> : null;
 
-  const handler = (event: React.ChangeEvent<unknown>, page: number) => {
+  const handler = (_event: React.ChangeEvent<unknown>, page: number) => {
     setOffset(() => CARDS_PER_PAGE * page - CARDS_PER_PAGE);
   };
 

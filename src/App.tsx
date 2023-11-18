@@ -3,6 +3,7 @@ import HomePage from './pages/homePage/HomePage';
 import ShopPage from './pages/shopPage/ShopPage';
 import ErrorPage from './pages/errorPage/ErrorPage';
 import SingleProductPage from './pages/singleProductPage/SingleProductPage';
+import Service from './service/Service'
 
 export default function App() {
   return (
