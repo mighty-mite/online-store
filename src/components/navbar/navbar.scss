@@ -1,0 +1,21 @@
+@import '../../commonStyles/variables.scss';
+@import '../../commonStyles/mixins.scss';
+
+.nav {
+  
+}
+
+.nav__list {
+  @include center;
+}
+
+.nav__link {
+  @include text-16-28;
+  color: $white;
+  font-weight: 700;
+  padding: 10px;
+}
+
+.nav__link:not(:last-child) {
+  margin-right: 21px;
+}
