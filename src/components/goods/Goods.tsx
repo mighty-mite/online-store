@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import Pagination from '@mui/material/Pagination';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import Service from '../../service/Service';
 import Card from '../card/Card';
 import Spinner from '../spinner/Spinner';
 import filter from '../../service/Filter';
+import sort from '../../service/Sort';
 import './goods.scss';
 
 interface Product {
@@ -32,6 +34,7 @@ function Goods(props: Props) {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [cardsOnPage, setCardsOnPage] = useState<Product[]>([]);
+  const [sortMode, setSortMode] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
@@ -41,14 +44,16 @@ function Goods(props: Props) {
   const onProductsLoaded = useCallback(
     (products: Product[]) => {
       const filtered = filter(products, brand, category, search, price);
-      setProductsFiltered(filtered);
+      const sorted = sort(filtered, sortMode);
+      console.log(sorted);
+      setProductsFiltered(sorted);
 
-      const visibleItems = filtered.filter((item, i) => i < CARDS_PER_PAGE);
+      const visibleItems = sorted.filter((_item, i) => i < CARDS_PER_PAGE);
 
       setCardsOnPage(() => [...visibleItems]);
       setLoading(() => false);
     },
-    [brand, search, category, price]
+    [brand, category, search, price, sortMode]
   );
 
   const getData = useCallback(() => {
@@ -104,12 +109,25 @@ function Goods(props: Props) {
     setOffset(() => CARDS_PER_PAGE * page - CARDS_PER_PAGE);
   };
 
+  const handleSort = (event: SelectChangeEvent) => {
+    setSortMode(event.target.value as string);
+  };
+
   return (
     <div className="goods">
       <div className="goods__top">
         <div className="goods__top-left">
           <p className="goods__sort">Sort by:</p>
-          {/* <Sort /> */}
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={sortMode}
+            label="Sort"
+            onChange={handleSort}
+          >
+            <MenuItem value="asc">Price ASC</MenuItem>
+            <MenuItem value="desc">Price DESC</MenuItem>
+          </Select>
         </div>
         <div className="goods__top-right">
           <button
