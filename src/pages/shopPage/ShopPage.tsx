@@ -7,20 +7,6 @@ import './shop.scss';
 import './filters.scss';
 import Goods from '../../components/goods/Goods';
 
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
-
 function ShopPage() {
   const [category, setCategory] = useState<string[]>([]);
   const [brand, setBrand] = useState<string[]>([]);
@@ -49,14 +35,6 @@ function ShopPage() {
 
   const priceHandler = (arr: number[]) => {
     setPrice(arr);
-  };
-
-  const getMinMaxPrice = (arr: Product[]) => {
-    const prices = new Set<number>();
-    arr.forEach((item) => {
-      prices.add(item.price);
-    });
-    return [Math.min(...prices), Math.max(...prices)];
   };
 
   return (

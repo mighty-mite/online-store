@@ -44,6 +44,17 @@ class Service {
     );
     return res;
   };
+
+  getMinMaxPrices = async () => {
+    const res = await this.getResource(
+      'https://dummyjson.com/products?limit=100&skip=0&select=price'
+    );
+    const prices = new Set<number>();
+    res.products.forEach((item: { id: number; price: number }) => {
+      prices.add(item.price);
+    });
+    return [Math.min(...prices), Math.max(...prices)];
+  };
 }
 
 export default Service;

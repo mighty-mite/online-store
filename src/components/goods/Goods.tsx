@@ -77,14 +77,6 @@ function Goods(props: Props) {
     setCardsOnPage(visibleItems);
   }, [offset, productsFiltered]);
 
-  const getMinMaxPrice = (arr: Product[]) => {
-    const prices = new Set<number>();
-    arr.forEach((item) => {
-      prices.add(item.price);
-    });
-    return [Math.min(...prices), Math.max(...prices)];
-  };
-
   const renderCards = (arr: Product[]) => {
     const items = arr.map((card) => {
       return (
