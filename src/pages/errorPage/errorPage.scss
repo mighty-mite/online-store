@@ -1,0 +1,31 @@
+.error__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.error__heading {
+  line-height: 77px;
+  color: #252B42;
+}
+
+.error__404 {
+  color: #737373;
+  line-height: 36px;
+  font-weight:700
+}
+
+.error__text {
+  line-height: 56px;
+  color: #737373;
+}
+
+.error__picture {
+  width: 100%;
+  height: 400px;
+  background-image: url('./../../assets/404.svg');
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

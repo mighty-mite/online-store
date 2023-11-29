@@ -45,7 +45,6 @@ function Goods(props: Props) {
     (products: Product[]) => {
       const filtered = filter(products, brand, category, search, price);
       const sorted = sort(filtered, sortMode);
-      console.log(sorted);
       setProductsFiltered(sorted);
 
       const visibleItems = sorted.filter((_item, i) => i < CARDS_PER_PAGE);
