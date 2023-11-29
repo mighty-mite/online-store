@@ -1,6 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import Pagination from '@mui/material/Pagination';
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import Service from '../../service/Service';
 import Card from '../card/Card';
 import Spinner from '../spinner/Spinner';
@@ -117,16 +123,19 @@ function Goods(props: Props) {
       <div className="goods__top">
         <div className="goods__top-left">
           <p className="goods__sort">Sort by:</p>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sortMode}
-            label="Sort"
-            onChange={handleSort}
-          >
-            <MenuItem value="asc">Price ASC</MenuItem>
-            <MenuItem value="desc">Price DESC</MenuItem>
-          </Select>
+          <FormControl style={{ width: '150px' }}>
+            <InputLabel id="select">Sort</InputLabel>
+            <Select
+              labelId="select"
+              id="select"
+              value={sortMode}
+              label="Sort"
+              onChange={handleSort}
+            >
+              <MenuItem value="asc">Price ASC</MenuItem>
+              <MenuItem value="desc">Price DESC</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div className="goods__top-right">
           <button
