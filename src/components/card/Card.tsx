@@ -16,7 +16,7 @@ function Card(props: Props) {
   const { id, title, price, stock, brand, category, thumbnail } = props;
 
   return (
-    <Link className="card" to="/shop">
+    <Link className="card" to={`/shop/${id}`}>
       <img src={thumbnail} alt={title} className="card__img" width="210" />
       <div className="card__text">
         <h2 className="card__heading">{title}</h2>

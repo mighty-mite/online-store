@@ -45,6 +45,11 @@ class Service {
     return res;
   };
 
+  getSingleProduct = async (id: string) => {
+    const res = await this.getResource(`${this.apiBase}/${id}`);
+    return res;
+  };
+
   getMinMaxPrices = async () => {
     const res = await this.getResource(
       'https://dummyjson.com/products?limit=100&skip=0&select=price'
