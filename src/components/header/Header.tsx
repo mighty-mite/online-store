@@ -14,7 +14,7 @@ function Header() {
           <img src={logo} alt="logo" />
         </Link>
         <NavBar />
-        <Link to="/" className="header__cart">
+        <Link to="/cart" className="header__cart">
           <img src={cart} alt="cart" />
         </Link>
       </div>

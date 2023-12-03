@@ -9,6 +9,7 @@ import Footer from './components/footer/Footer';
 import './commonStyles/normalize.scss';
 import './commonStyles/global.scss';
 import './app.scss';
+import CartPage from './pages/cartPage/CartPage';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/shop/:productId" element={<SingleProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
