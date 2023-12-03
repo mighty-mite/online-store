@@ -1,23 +1,4 @@
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
-
-// {
-//   category: ['smartphones', 'cars'],
-//   brand: ['apple', 'toyota', 'samsung'],
-//   search: 'input',
-//   price: [100, 1000]
-// }
+import { Product } from './types';
 
 function filter(
   arr: Product[],
@@ -41,8 +22,6 @@ function filter(
     if (category.length === 0) return filteredByBrand;
     return category.includes(item.category);
   });
-
-  // return filteredByCategory
 
   const filteredByPrice = filteredByCategory.filter(
     (item) => item.price >= price[0] && item.price <= price[1]

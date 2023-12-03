@@ -3,20 +3,7 @@ import { useParams } from 'react-router-dom';
 import Service from '../../service/Service';
 import Spinner from '../../components/spinner/Spinner';
 import './singlePropuctPage.scss';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
+import { Product } from '../../service/types';
 
 function View(product: Product | undefined) {
   if (product === undefined) return <Spinner />;

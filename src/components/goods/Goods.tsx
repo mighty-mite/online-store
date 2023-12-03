@@ -12,21 +12,8 @@ import Card from '../card/Card';
 import Spinner from '../spinner/Spinner';
 import filter from '../../service/Filter';
 import sort from '../../service/Sort';
+import { Product } from '../../service/types';
 import './goods.scss';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
 
 interface Props {
   search: string;
