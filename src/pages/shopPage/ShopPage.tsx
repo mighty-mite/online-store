@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Brand from '../../components/brand/Brand';
 import Searchbar from '../../components/searchbar/Searchbar';
 import Category from '../../components/category/Category';
@@ -6,6 +6,7 @@ import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider
 import './shop.scss';
 import './filters.scss';
 import Goods from '../../components/goods/Goods';
+import Service from '../../service/Service';
 
 function ShopPage() {
   const [category, setCategory] = useState<string[]>([]);
@@ -32,6 +33,16 @@ function ShopPage() {
   const searchHandler = (str: string) => {
     setSearch(() => str.toLowerCase());
   };
+
+  useEffect(() => {
+    const service = new Service();
+    service
+      .getMinMaxPrices()
+      .then((arr) => {
+        setPrice([arr[0], arr[1]]);
+      })
+      .catch();
+  }, []);
 
   const priceHandler = (arr: number[]) => {
     setPrice(arr);
