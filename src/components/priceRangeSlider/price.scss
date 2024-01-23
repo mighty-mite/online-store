@@ -1,34 +1,19 @@
-.MuiSlider-root {
-  width: 275px
-}
-
-.MuiSlider-rail {
-  background-color: #E6E6E6;
-}
-
-.MuiSlider-track {
-  background-color: #2DC071;
-  color: #2DC071;
-}
-
-.MuiSlider-thumb {
-  background-color: #2DC071;
-}
-
 .price {
-  border: 1px solid #E8E8E8;
+  border: 1px solid #e8e8e8;
   border-radius: 5px;
   text-align: center;
 }
 
 .price__container {
   display: flex;
+  justify-content: center;
+  padding-bottom: 25px;
 }
 
 .price__input {
-  width: 129px;
-  height: 58px;
-  border: 1px solid #E0E0E0;
+  width: 100px;
+  height: 50px;
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
   outline: none;
   line-height: 16px;
@@ -44,7 +29,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: #252B42;
+  color: #252b42;
   margin-bottom: 20px;
   padding: 25px 0 0 0;
 }

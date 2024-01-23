@@ -2,42 +2,37 @@
 @import '../../commonStyles/mixins.scss';
 
 .filters {
-	width: 380px;
-	border: 1px solid $border;
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-	background-color: $white;
-	min-height: 100px;
-	padding: 19px 18px 17px 16px;
+  width: 380px;
+  border: 1px solid $border;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: $white;
+  min-height: 100px;
+  padding: 19px 18px 17px 16px;
 }
 
 .filters__item:not(:last-child) {
-	margin-bottom: 20px;
-}
-
-.filters__item {
-	height: 264px;
-	// overflow-y: auto;
+  margin-bottom: 20px;
 }
 
 .filters__item::-webkit-scrollbar {
-	width: 5px;
+  width: 5px;
 }
 
 .filters__item::-webkit-scrollbar-thumb {
   background-color: $text-dark;
-	height: 10px;
-	border-radius: 5px;
+  height: 10px;
+  border-radius: 5px;
 }
 
 @media (max-width: 915px) {
-	.filters {
-		width: 35%;
-	}
+  .filters {
+    width: 35%;
+  }
 }
 
 @media (max-width: 800px) {
-	.filters {
-		display: none;
-	}
+  .filters {
+    display: none;
+  }
 }
