@@ -19,7 +19,9 @@ interface Props {
   search: string;
   brand: string[];
   category: string[];
-  price: number[];
+  // price: number[];
+  minPrice: number;
+  maxPrice: number;
 }
 
 function Goods(props: Props) {
@@ -32,11 +34,18 @@ function Goods(props: Props) {
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
 
-  const { search, brand, category, price } = props;
+  const { search, brand, category, minPrice, maxPrice } = props;
 
   const onProductsLoaded = useCallback(
     (products: Product[]) => {
-      const filtered = filter(products, brand, category, search, price);
+      const filtered = filter(
+        products,
+        brand,
+        category,
+        search,
+        minPrice,
+        maxPrice
+      );
       const sorted = sort(filtered, sortMode);
       setProductsFiltered(sorted);
 
@@ -45,7 +54,7 @@ function Goods(props: Props) {
       setCardsOnPage(() => [...visibleItems]);
       setLoading(() => false);
     },
-    [brand, category, search, price, sortMode]
+    [brand, category, search, minPrice, maxPrice, sortMode]
   );
 
   const getData = useCallback(() => {
@@ -65,7 +74,15 @@ function Goods(props: Props) {
   useEffect(() => {
     onProductsLoaded(allProducts);
     setOffset(0);
-  }, [search, brand, category, price, allProducts, onProductsLoaded]);
+  }, [
+    search,
+    brand,
+    category,
+    minPrice,
+    maxPrice,
+    allProducts,
+    onProductsLoaded,
+  ]);
 
   useEffect(() => {
     const visibleItems = productsFiltered.filter((_item, i) => {

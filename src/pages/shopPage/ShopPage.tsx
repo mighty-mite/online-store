@@ -12,7 +12,9 @@ function ShopPage() {
   const [category, setCategory] = useState<string[]>([]);
   const [brand, setBrand] = useState<string[]>([]);
   const [search, setSearch] = useState('');
-  const [price, setPrice] = useState<number[]>([20, 3000]);
+
+  const [minPrice, setMinPrice] = useState<number>(1);
+  const [maxPrice, setMaxPrice] = useState<number>(1);
 
   const categoryHandler = (str: string, isChecked: boolean) => {
     if (isChecked) {
@@ -39,13 +41,18 @@ function ShopPage() {
     service
       .getMinMaxPrices()
       .then((arr) => {
-        setPrice([arr[0], arr[1]]);
+        setMinPrice(arr[0]);
+        setMaxPrice(arr[1]);
       })
       .catch();
   }, []);
 
-  const priceHandler = (arr: number[]) => {
-    setPrice(arr);
+  const handleMinValue = (arg: number) => {
+    setMinPrice(arg);
+  };
+
+  const handleMaxValue = (arg: number) => {
+    setMaxPrice(arg);
   };
 
   return (
@@ -55,13 +62,17 @@ function ShopPage() {
           <Searchbar searchHandler={searchHandler} />
           <Category categoryHandler={categoryHandler} />
           <Brand brandHandler={brandHandler} />
-          <PriceRangeSlider priceHandler={priceHandler} />
+          <PriceRangeSlider
+            handleMaxValue={handleMaxValue}
+            handleMinValue={handleMinValue}
+          />
         </div>
         <Goods
           brand={brand}
           category={category}
           search={search}
-          price={price}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
         />
       </div>
     </div>

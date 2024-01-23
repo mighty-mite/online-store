@@ -5,7 +5,9 @@ function filter(
   brand: string[],
   category: string[],
   search: string,
-  price: number[]
+  // price: number[],
+  minPrice: number,
+  maxPrice: number
 ) {
   const filteredBySearch = arr.filter(
     (item) =>
@@ -24,7 +26,7 @@ function filter(
   });
 
   const filteredByPrice = filteredByCategory.filter(
-    (item) => item.price >= price[0] && item.price <= price[1]
+    (item) => item.price >= minPrice && item.price <= maxPrice
   );
 
   return filteredByPrice;

@@ -1,57 +1,50 @@
 import { useState, useEffect } from 'react';
-import Slider from '@mui/material/Slider';
 import Service from '../../service/Service';
 import './price.scss';
 
 interface Props {
-  priceHandler: (arr: number[]) => void;
+  handleMaxValue: (arg: number) => void;
+  handleMinValue: (arg: number) => void;
 }
 
 export default function PriceRangeSlider(props: Props) {
-  const [value, setValue] = useState<number[]>([]);
-  const [minValue, setMinValue] = useState<number>();
-  const [maxValue, setMaxValue] = useState<number>();
-  const { priceHandler } = props;
-
+  const [minValue, setMinValue] = useState<number>(1);
+  const [maxValue, setMaxValue] = useState<number>(1);
+  const { handleMaxValue, handleMinValue } = props;
   useEffect(() => {
     const service = new Service();
     service
       .getMinMaxPrices()
       .then((arr) => {
-        setValue(arr);
         setMinValue(arr[0]);
         setMaxValue(arr[1]);
       })
       .catch();
   }, []);
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
-    priceHandler(value);
+  const handleMin = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleMinValue(Number(e.target.value));
+    setMinValue(Number(e.target.value));
+  };
+
+  const handleMax = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleMaxValue(Number(e.target.value));
+    setMaxValue(Number(e.target.value));
   };
 
   return (
     <div className="filters__item price">
       <h2 className="price__heading">Filter by price</h2>
-      <Slider
-        min={minValue}
-        max={maxValue}
-        classes={{}}
-        getAriaLabel={() => 'Temperature range'}
-        value={value}
-        onChange={handleChange}
-        valueLabelDisplay="auto"
-      />
       <div className="price__container">
         <input
-          readOnly
-          value={`${value[0]}$`}
+          onChange={handleMin}
+          value={minValue}
           type="text"
           className="price__input price__from"
         />
         <input
-          readOnly
-          value={`${value[1]}$`}
+          onChange={handleMax}
+          value={maxValue}
           type="text"
           className="price__input price__to"
         />
