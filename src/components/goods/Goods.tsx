@@ -19,7 +19,6 @@ interface Props {
   search: string;
   brand: string[];
   category: string[];
-  // price: number[];
   minPrice: number;
   maxPrice: number;
 }
@@ -72,6 +71,7 @@ function Goods(props: Props) {
   }, [getData]);
 
   useEffect(() => {
+    setLoading(true);
     onProductsLoaded(allProducts);
     setOffset(0);
   }, [

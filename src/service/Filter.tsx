@@ -5,7 +5,6 @@ function filter(
   brand: string[],
   category: string[],
   search: string,
-  // price: number[],
   minPrice: number,
   maxPrice: number
 ) {

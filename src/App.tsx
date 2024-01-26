@@ -1,4 +1,6 @@
+import { Provider } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import { store } from './store';
 import HomePage from './pages/homePage/HomePage';
 import ShopPage from './pages/shopPage/ShopPage';
 import ErrorPage from './pages/errorPage/ErrorPage';
@@ -13,7 +15,7 @@ import CartPage from './pages/cartPage/CartPage';
 
 export default function App() {
   return (
-    <>
+    <Provider store={store}>
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -23,6 +25,6 @@ export default function App() {
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
-    </>
+    </Provider>
   );
 }

@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { useAppSelector } from '../../hooks/redux';
 import './cartPage.scss';
 
 function CartPage() {
+  const cartItems = useAppSelector((state) => state.cart.items);
+
   return (
     <section id="cart-page" className="cart">
       <div className="cart__center">
@@ -11,7 +15,11 @@ function CartPage() {
           <div className="cart__head-amount">Amount</div>
           <div className="cart__head-subtotal">Subtotal</div>
         </div>
-        <div className="items">Cart is empty, let&apos;s go shopping!</div>
+        <div className="items">
+          {cartItems.length === 0
+            ? 'Cart is empty, let&apos;s go shopping!'
+            : cartItems.map((item) => <div key={uuidv4()}>{item.title}</div>)}
+        </div>
         <div className="cart__controls">
           <Link className="cart__go-shopping-btn" to="/">
             Continue Shopping
