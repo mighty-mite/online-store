@@ -1,0 +1,12 @@
+.cart-item {
+  display: grid;
+  grid-template-columns: 18% 25% 18% 18% auto;
+  justify-items: center;
+  align-items: center;
+
+  border-bottom: 1px solid #737373;
+}
+
+.cart-item__img {
+  width: 100px;
+}

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import CartItem from '../../components/cartItem/cartItem';
 import { useAppSelector } from '../../hooks/redux';
 import './cartPage.scss';
 
@@ -10,15 +11,23 @@ function CartPage() {
     <section id="cart-page" className="cart">
       <div className="cart__center">
         <div className="cart__head">
+          <div className="cart__head-item" />
           <div className="cart__head-item">Item</div>
           <div className="cart__head-price">Price</div>
           <div className="cart__head-amount">Amount</div>
           <div className="cart__head-subtotal">Subtotal</div>
         </div>
-        <div className="items">
+        <div className="cart__items">
           {cartItems.length === 0
             ? 'Cart is empty, let&apos;s go shopping!'
-            : cartItems.map((item) => <div key={uuidv4()}>{item.title}</div>)}
+            : cartItems.map((item) => (
+                <CartItem
+                  key={uuidv4()}
+                  title={item.title}
+                  price={item.price}
+                  thumbnail={item.thumbnail}
+                />
+              ))}
         </div>
         <div className="cart__controls">
           <Link className="cart__go-shopping-btn" to="/">
@@ -41,7 +50,7 @@ function CartPage() {
             <span className="total__bottom-text">Total: </span>
             <span className="total__bottom-value">$</span>
           </div>
-          <input className="total__promo" placeholder="Promo code..." />
+          {/* <input className="total__promo" placeholder="Promo code..." /> */}
           <button className="total__buy" type="button">
             Buy Now
           </button>
