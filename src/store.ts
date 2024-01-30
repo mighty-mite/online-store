@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cart from './pages/cartPage/cartSlice';
+import searchSettings from './pages/shopPage/shopPageSlice';
 
 export const store = configureStore({
-  reducer: { cart },
+  reducer: { cart, searchSettings },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: process.env.NODE_ENV !== 'production',
 });

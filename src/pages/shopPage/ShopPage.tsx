@@ -3,10 +3,19 @@ import Brand from '../../components/brand/Brand';
 import Searchbar from '../../components/searchbar/Searchbar';
 import Category from '../../components/category/Category';
 import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
-import './shop.scss';
-import './filters.scss';
+import {
+  addCategory,
+  removeCategory,
+  addBrand,
+  removeBrand,
+  addSearchQuery,
+  fetchPrices,
+} from './shopPageSlice';
+import { useAppDispatch } from '../../hooks/redux';
 import Goods from '../../components/goods/Goods';
 import Service from '../../service/Service';
+import './shop.scss';
+import './filters.scss';
 
 function ShopPage() {
   const [category, setCategory] = useState<string[]>([]);
@@ -15,28 +24,35 @@ function ShopPage() {
 
   const [minPrice, setMinPrice] = useState<number>(1);
   const [maxPrice, setMaxPrice] = useState<number>(1);
+  const dispatch = useAppDispatch();
 
   const categoryHandler = (str: string, isChecked: boolean) => {
     if (isChecked) {
       setCategory((state) => [...state, str]);
+      dispatch(addCategory(str));
     } else {
       setCategory((state) => state.filter((item) => item !== str));
+      dispatch(removeCategory(str));
     }
   };
 
   const brandHandler = (str: string, isChecked: boolean) => {
     if (isChecked) {
       setBrand((state) => [...state, str]);
+      dispatch(addBrand(str));
     } else {
       setBrand((state) => state.filter((item) => item !== str));
+      dispatch(removeBrand(str));
     }
   };
 
   const searchHandler = (str: string) => {
     setSearch(() => str.toLowerCase());
+    dispatch(addSearchQuery(str.toLowerCase()));
   };
 
   useEffect(() => {
+    dispatch(fetchPrices());
     const service = new Service();
     service
       .getMinMaxPrices()
@@ -45,7 +61,7 @@ function ShopPage() {
         setMaxPrice(arr[1]);
       })
       .catch();
-  }, []);
+  }, [dispatch]);
 
   const handleMinValue = (arg: number) => {
     setMinPrice(arg);
