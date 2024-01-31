@@ -3,23 +3,19 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Service from '../../service/Service';
 
 interface InitialState {
-  searchSettings: {
-    category: string[];
-    brand: string[];
-    searchQuery: string;
-    minPrice: number;
-    maxPrice: number;
-  };
+  categories: string[];
+  brands: string[];
+  searchQuery: string;
+  minPrice: number;
+  maxPrice: number;
 }
 
 const initialState: InitialState = {
-  searchSettings: {
-    category: [],
-    brand: [],
-    searchQuery: '',
-    minPrice: 1,
-    maxPrice: 1,
-  },
+  categories: [],
+  brands: [],
+  searchQuery: '',
+  minPrice: 1,
+  maxPrice: 1,
 };
 
 export const fetchPrices = createAsyncThunk(
@@ -35,30 +31,34 @@ const shopPageSlice = createSlice({
   initialState,
   reducers: {
     addCategory: (state, action: PayloadAction<string>) => {
-      state.searchSettings.category.push(action.payload);
+      state.categories.push(action.payload);
     },
     removeCategory: (state, action: PayloadAction<string>) => {
-      state.searchSettings.category = state.searchSettings.category.filter(
+      state.categories = state.categories.filter(
         (item) => item !== action.payload
       );
     },
     addBrand: (state, action: PayloadAction<string>) => {
-      state.searchSettings.brand.push(action.payload);
+      state.brands.push(action.payload);
     },
     removeBrand: (state, action: PayloadAction<string>) => {
-      state.searchSettings.brand = state.searchSettings.brand.filter(
-        (item) => item !== action.payload
-      );
+      state.brands = state.brands.filter((item) => item !== action.payload);
     },
     addSearchQuery: (state, action: PayloadAction<string>) => {
-      state.searchSettings.searchQuery = action.payload;
+      state.searchQuery = action.payload;
+    },
+    setMinPrice: (state, action: PayloadAction<number>) => {
+      state.minPrice = action.payload;
+    },
+    setMaxPrice: (state, action: PayloadAction<number>) => {
+      state.maxPrice = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPrices.fulfilled, (state, action) => {
       const [minPrice, maxPrice] = action.payload;
-      state.searchSettings.minPrice = minPrice;
-      state.searchSettings.maxPrice = maxPrice;
+      state.minPrice = minPrice;
+      state.maxPrice = maxPrice;
     });
   },
 });
@@ -71,4 +71,6 @@ export const {
   addBrand,
   removeBrand,
   addSearchQuery,
+  setMinPrice,
+  setMaxPrice,
 } = actions;
