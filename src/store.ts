@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cart from './pages/cartPage/cartSlice';
 import searchSettings from './pages/shopPage/shopPageSlice';
+import goodsSlice from './components/goods/goodsSlice';
 
 export const store = configureStore({
-  reducer: { cart, searchSettings },
+  reducer: { cart, searchSettings, goodsSlice },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: process.env.NODE_ENV !== 'production',
 });

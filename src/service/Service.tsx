@@ -30,7 +30,7 @@ class Service {
     const res = await this.getResource(
       `${this.apiBase}/search?q=${query}&limit=${limit}&skip=${offset}`
     );
-    return res;
+    return res.products;
   };
 
   getSingleProduct = async (id: string) => {

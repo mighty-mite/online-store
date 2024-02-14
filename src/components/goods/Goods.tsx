@@ -13,6 +13,8 @@ import Spinner from '../spinner/Spinner';
 import filter from '../../service/Filter';
 import sort from '../../service/Sort';
 import { Product } from '../../service/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { fetchProducts } from './goodsSlice';
 import './goods.scss';
 
 interface Props {
@@ -25,13 +27,16 @@ interface Props {
 
 function Goods(props: Props) {
   const CARDS_PER_PAGE = 20;
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  // const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [cardsOnPage, setCardsOnPage] = useState<Product[]>([]);
   const [sortMode, setSortMode] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
+
+  const dispatch = useAppDispatch();
+  const { allProducts } = useAppSelector((state) => state.goodsSlice);
 
   const { search, brand, category, minPrice, maxPrice } = props;
 
@@ -56,19 +61,20 @@ function Goods(props: Props) {
     [brand, category, search, minPrice, maxPrice, sortMode]
   );
 
-  const getData = useCallback(() => {
-    const service = new Service();
-    service
-      .getProducts()
-      .then((data) => {
-        setAllProducts(data.products);
-      })
-      .catch();
-  }, []);
+  // const getData = useCallback(() => {
+  //   const service = new Service();
+  //   service
+  //     .getProducts()
+  //     .then((data) => {
+  //       setAllProducts(data);
+  //     })
+  //     .catch();
+  // }, []);
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    // getData();
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     setLoading(true);
