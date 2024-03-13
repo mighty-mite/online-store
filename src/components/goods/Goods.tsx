@@ -7,7 +7,6 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import Service from '../../service/Service';
 import Card from '../card/Card';
 import Spinner from '../spinner/Spinner';
 import filter from '../../service/Filter';
@@ -109,6 +108,7 @@ function Goods(props: Props) {
           brand={card.brand}
           category={card.category}
           thumbnail={card.thumbnail}
+          description={card.description}
         />
       );
     });

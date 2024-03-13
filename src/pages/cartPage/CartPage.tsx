@@ -1,11 +1,23 @@
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { createSelector } from '@reduxjs/toolkit';
 import CartItem from '../../components/cartItem/cartItem';
 import { useAppSelector } from '../../hooks/redux';
+import { RootState } from '../../store';
+
 import './cartPage.scss';
 
 function CartPage() {
-  const cartItems = useAppSelector((state) => state.cart.items);
+  // const cartItems = useAppSelector((state) =>
+  //   state.cart.items.map((item) => item.cartProduct)
+  // );
+
+  const cartItems = createSelector(
+    [(state: RootState) => state.cart.items],
+    (pushedItems) => pushedItems.map((item) => item.cartProduct)
+  );
+
+  const allCartItems = useAppSelector(cartItems);
 
   return (
     <section id="cart-page" className="cart">
@@ -18,14 +30,15 @@ function CartPage() {
           <div className="cart__head-subtotal">Subtotal</div>
         </div>
         <div className="cart__items">
-          {cartItems.length === 0
+          {allCartItems.length === 0
             ? 'Cart is empty, let&apos;s go shopping!'
-            : cartItems.map((item) => (
+            : allCartItems.map((item) => (
                 <CartItem
                   key={uuidv4()}
                   title={item.title}
                   price={item.price}
                   thumbnail={item.thumbnail}
+                  id={item.id}
                 />
               ))}
         </div>

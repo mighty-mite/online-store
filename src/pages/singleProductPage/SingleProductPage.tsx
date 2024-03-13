@@ -1,13 +1,38 @@
 import { useState, useEffect } from 'react';
+import { createSelector } from '@reduxjs/toolkit';
 import { useParams } from 'react-router-dom';
 import Service from '../../service/Service';
 import Spinner from '../../components/spinner/Spinner';
 import './singlePropuctPage.scss';
 import { Product } from '../../service/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { addItem } from '../cartPage/cartSlice';
+import { RootState } from '../../store';
 
 function View(product: Product | undefined) {
+  const dispatch = useAppDispatch();
+
+  // const cartItems = useAppSelector((state) =>
+  //   state.cart.items.map((item) => item.cartProduct)
+  // );
+
+  const cartItems = createSelector(
+    [(state: RootState) => state.cart.items],
+    (pushedItems) => pushedItems.map((item) => item.cartProduct)
+  );
+
+  const allCartItems = useAppSelector(cartItems);
+
+  const { productId } = useParams();
+
+  const isDisabled = (arr: Product[], itemId: number) => {
+    const cartProductsIds = arr.map((item) => item.id);
+    return cartProductsIds.includes(itemId);
+  };
+  isDisabled(allCartItems, Number(productId));
   if (product === undefined) return <Spinner />;
-  const { thumbnail, title, price, description } = product;
+  const { thumbnail, title, price, description, id, stock, brand, category } =
+    product;
 
   return (
     <section className="product">
@@ -18,7 +43,25 @@ function View(product: Product | undefined) {
         <div className="product__info">
           <h1 className="product__title">{title}</h1>
           <p className="product__price">${price}</p>
-          <button className="product__add" type="button">
+          <button
+            disabled={isDisabled(allCartItems, Number(productId))}
+            className="product__add"
+            type="button"
+            onClick={() =>
+              dispatch(
+                addItem({
+                  id,
+                  title,
+                  price,
+                  stock,
+                  brand,
+                  category,
+                  thumbnail,
+                  description,
+                })
+              )
+            }
+          >
             Add To Cart
           </button>
           <h2 className="product__title-description">Product Description</h2>
