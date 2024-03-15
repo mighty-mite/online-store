@@ -1,7 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { useAppSelector } from '../../hooks/redux';
-import './cartItem.scss';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { RootState } from '../../store';
+import { increase, decrease, deleteItem } from '../../pages/cartPage/cartSlice';
+import './cartItem.scss';
 
 interface Props {
   title: string;
@@ -13,24 +14,37 @@ interface Props {
 function CartItem(props: Props) {
   const { title, price, thumbnail, id } = props;
 
-  // const amount = createSelector(
-  //   (store: RootState) => store.cart.items,
-  //   (pushedItems) => {
-  //     const cart = pushedItems.map((item) => item.cartProduct);
-  //     cart.map(cartItem => )
-  //   }
-  // );
+  const dispatch = useAppDispatch();
+
+  const cartItem = createSelector(
+    (store: RootState) => store.cart.items,
+    (pushedItems) => {
+      return pushedItems.filter((item) => item.cartProduct.id === id);
+    }
+  );
+
+  const { amount } = useAppSelector(cartItem)[0];
 
   const onMinus = () => {
-    console.log('minus ', id);
+    dispatch(decrease(id));
   };
 
   const onPlus = () => {
-    console.log('plus ', id);
+    dispatch(increase(id));
+  };
+
+  const onDeleteItem = () => {
+    dispatch(deleteItem(id));
   };
 
   return (
     <div className="cart-item">
+      <button
+        className="cart-item__delete"
+        type="button"
+        aria-label="delete item"
+        onClick={onDeleteItem}
+      />
       <img src={thumbnail} alt="product" className="cart-item__img" />
       <div className="cart-item__title">{title}</div>
       <div className="cart-item__price">{price}</div>
@@ -38,7 +52,7 @@ function CartItem(props: Props) {
         <button onClick={onMinus} type="button">
           -
         </button>
-        <span>1</span>
+        <span>{amount}</span>
         <button onClick={onPlus} type="button">
           +
         </button>

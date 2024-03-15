@@ -1,6 +1,6 @@
 .cart-item {
   display: grid;
-  grid-template-columns: 18% 25% 18% 18% auto;
+  grid-template-columns: 8% 18% 25% 18% 18% auto;
   justify-items: center;
   align-items: center;
 
@@ -9,4 +9,16 @@
 
 .cart-item__img {
   width: 100px;
+}
+
+.cart-item__delete {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  width: 53px;
+  height: 51px;
+  background-image: url('../../assets/delete.svg');
+  background-size: 40%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }

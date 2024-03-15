@@ -31,7 +31,7 @@ function CartPage() {
         </div>
         <div className="cart__items">
           {allCartItems.length === 0
-            ? 'Cart is empty, let&apos;s go shopping!'
+            ? "Cart is empty, let's go shopping!"
             : allCartItems.map((item) => (
                 <CartItem
                   key={uuidv4()}
