@@ -2,22 +2,25 @@ import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { createSelector } from '@reduxjs/toolkit';
 import CartItem from '../../components/cartItem/cartItem';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { RootState } from '../../store';
 
 import './cartPage.scss';
+import { clearCart } from './cartSlice';
 
 function CartPage() {
-  // const cartItems = useAppSelector((state) =>
-  //   state.cart.items.map((item) => item.cartProduct)
-  // );
-
   const cartItems = createSelector(
     [(state: RootState) => state.cart.items],
     (pushedItems) => pushedItems.map((item) => item.cartProduct)
   );
 
   const allCartItems = useAppSelector(cartItems);
+
+  const dispatch = useAppDispatch();
+
+  const onClear = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <section id="cart-page" className="cart">
@@ -43,10 +46,10 @@ function CartPage() {
               ))}
         </div>
         <div className="cart__controls">
-          <Link className="cart__go-shopping-btn" to="/">
+          <Link className="cart__go-shopping-btn" to="/shop">
             Continue Shopping
           </Link>
-          <button className="cart__clear-btn" type="button">
+          <button onClick={onClear} className="cart__clear-btn" type="button">
             Clear Cart
           </button>
         </div>

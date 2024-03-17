@@ -57,7 +57,7 @@ function CartItem(props: Props) {
           +
         </button>
       </div>
-      <div className="cart-item__sum">sum</div>
+      <div className="cart-item__sum">${price * amount}</div>
     </div>
   );
 }

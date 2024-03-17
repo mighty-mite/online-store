@@ -52,9 +52,12 @@ const cartSlice = createSlice({
       const index = state.items.findIndex((item) => item.id === action.payload);
       state.items.splice(index, 1);
     },
+    clearCart: (state) => {
+      state.items.splice(0, state.items.length);
+    },
   },
 });
 
 const { actions, reducer } = cartSlice;
 export default reducer;
-export const { addItem, increase, decrease, deleteItem } = actions;
+export const { addItem, increase, decrease, deleteItem, clearCart } = actions;
