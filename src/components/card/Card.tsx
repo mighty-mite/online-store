@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { createSelector } from '@reduxjs/toolkit';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { addItem } from '../../pages/cartPage/cartSlice';
+import {
+  addItem,
+  changeSum,
+  getTotalSum,
+} from '../../pages/cartPage/cartSlice';
 import { CartProduct } from '../../service/types';
 import './card.scss';
 import { RootState } from '../../store';
@@ -22,10 +26,6 @@ function Card(props: Props) {
     props;
   const dispatch = useAppDispatch();
 
-  // const cartItems = useAppSelector((state) =>
-  //   state.cart.items.map((item) => item.cartProduct)
-  // );
-
   const cartItems = createSelector(
     [(state: RootState) => state.cart.items],
     (pushedItems) => pushedItems.map((item) => item.cartProduct)
@@ -36,6 +36,22 @@ function Card(props: Props) {
   const isDisabled = (arr: CartProduct[], itemId: number) => {
     const cartProductsIds = arr.map((item) => item.id);
     return cartProductsIds.includes(itemId);
+  };
+
+  const onAddItem = () => {
+    dispatch(
+      addItem({
+        id,
+        title,
+        price,
+        stock,
+        brand,
+        category,
+        thumbnail,
+        description,
+      })
+    );
+    dispatch(getTotalSum());
   };
 
   return (
@@ -66,20 +82,7 @@ function Card(props: Props) {
         disabled={isDisabled(allCartItems, id)}
         className="card__add"
         type="button"
-        onClick={() =>
-          dispatch(
-            addItem({
-              id,
-              title,
-              price,
-              stock,
-              brand,
-              category,
-              thumbnail,
-              description,
-            })
-          )
-        }
+        onClick={onAddItem}
       >
         Add To Cart
       </button>

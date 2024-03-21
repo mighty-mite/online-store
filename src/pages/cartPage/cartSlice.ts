@@ -1,18 +1,26 @@
+/* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { CartProduct } from '../../service/types';
 
 export interface InitialState {
   items: PushedItem[];
+  subtotal: number;
+  shippingFee: number;
+  total: number;
 }
 
 export interface PushedItem {
   cartProduct: CartProduct;
   amount: number;
   id: number;
+  sum: number;
 }
 
 const initialState: InitialState = {
   items: [],
+  subtotal: 0,
+  shippingFee: 0,
+  total: 0,
 };
 
 const cartSlice = createSlice({
@@ -26,13 +34,13 @@ const cartSlice = createSlice({
       prepare: (cartProduct: CartProduct) => {
         const amount = 1;
         const { id } = cartProduct;
-        return { payload: { amount, id, cartProduct } };
+        const sum = cartProduct.price;
+        return { payload: { amount, id, sum, cartProduct } };
       },
     },
     increase: (state, action: PayloadAction<number>) => {
       state.items.forEach((item) => {
         if (item.id === action.payload) {
-          // eslint-disable-next-line no-param-reassign
           item.amount += 1;
         }
       });
@@ -43,7 +51,6 @@ const cartSlice = createSlice({
           if (item.amount === 1) {
             return;
           }
-          // eslint-disable-next-line no-param-reassign
           item.amount -= 1;
         }
       });
@@ -55,9 +62,45 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.items.splice(0, state.items.length);
     },
+    changeSum: (state, action: PayloadAction<number>) => {
+      state.items.forEach((item) => {
+        if (item.id === action.payload) {
+          item.sum = item.amount * item.cartProduct.price;
+        }
+      });
+    },
+    getTotalSum: (state) => {
+      let res = 0;
+      if (state.items.length === 0) {
+        state.subtotal = 0;
+      } else {
+        state.items.forEach((item) => {
+          res += item.sum;
+          state.subtotal = res;
+        });
+      }
+
+      state.shippingFee = Math.round(0.05 * state.subtotal);
+      state.total = state.shippingFee + state.subtotal;
+    },
+
+    clearTotalSum: (state) => {
+      state.subtotal = 0;
+      state.shippingFee = 0;
+      state.total = 0;
+    },
   },
 });
 
 const { actions, reducer } = cartSlice;
 export default reducer;
-export const { addItem, increase, decrease, deleteItem, clearCart } = actions;
+export const {
+  addItem,
+  increase,
+  decrease,
+  deleteItem,
+  clearCart,
+  changeSum,
+  getTotalSum,
+  clearTotalSum,
+} = actions;

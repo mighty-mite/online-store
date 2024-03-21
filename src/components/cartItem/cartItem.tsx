@@ -1,7 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { RootState } from '../../store';
-import { increase, decrease, deleteItem } from '../../pages/cartPage/cartSlice';
+import {
+  increase,
+  decrease,
+  deleteItem,
+  changeSum,
+  getTotalSum,
+} from '../../pages/cartPage/cartSlice';
 import './cartItem.scss';
 
 interface Props {
@@ -27,14 +33,19 @@ function CartItem(props: Props) {
 
   const onMinus = () => {
     dispatch(decrease(id));
+    dispatch(changeSum(id));
+    dispatch(getTotalSum());
   };
 
   const onPlus = () => {
     dispatch(increase(id));
+    dispatch(changeSum(id));
+    dispatch(getTotalSum());
   };
 
   const onDeleteItem = () => {
     dispatch(deleteItem(id));
+    dispatch(getTotalSum());
   };
 
   return (

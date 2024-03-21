@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { RootState } from '../../store';
 
 import './cartPage.scss';
-import { clearCart } from './cartSlice';
+import { clearCart, clearTotalSum } from './cartSlice';
 
 function CartPage() {
   const cartItems = createSelector(
@@ -20,6 +20,7 @@ function CartPage() {
 
   const onClear = () => {
     dispatch(clearCart());
+    dispatch(clearTotalSum());
   };
 
   return (
