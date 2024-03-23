@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { createSelector } from '@reduxjs/toolkit';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addItem, getTotalSum } from '../../pages/cartPage/cartSlice';
-import { CartProduct } from '../../service/types';
+import { Product } from '../../service/types';
 import './card.scss';
 import { RootState } from '../../store';
 
@@ -29,7 +29,7 @@ function Card(props: Props) {
 
   const allCartItems = useAppSelector(cartItems);
 
-  const isDisabled = (arr: CartProduct[], itemId: number) => {
+  const isDisabled = (arr: Product[], itemId: number) => {
     const cartProductsIds = arr.map((item) => item.id);
     return cartProductsIds.includes(itemId);
   };
