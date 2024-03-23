@@ -14,6 +14,10 @@ function CartPage() {
     (pushedItems) => pushedItems.map((item) => item.cartProduct)
   );
 
+  const { subtotal, total, shippingFee } = useAppSelector(
+    (state) => state.cart
+  );
+
   const allCartItems = useAppSelector(cartItems);
 
   const dispatch = useAppDispatch();
@@ -34,17 +38,21 @@ function CartPage() {
           <div className="cart__head-subtotal">Subtotal</div>
         </div>
         <div className="cart__items">
-          {allCartItems.length === 0
-            ? "Cart is empty, let's go shopping!"
-            : allCartItems.map((item) => (
-                <CartItem
-                  key={uuidv4()}
-                  title={item.title}
-                  price={item.price}
-                  thumbnail={item.thumbnail}
-                  id={item.id}
-                />
-              ))}
+          {allCartItems.length === 0 ? (
+            <div className="cart__items-empty">
+              Cart is empty, lets go shopping!
+            </div>
+          ) : (
+            allCartItems.map((item) => (
+              <CartItem
+                key={uuidv4()}
+                title={item.title}
+                price={item.price}
+                thumbnail={item.thumbnail}
+                id={item.id}
+              />
+            ))
+          )}
         </div>
         <div className="cart__controls">
           <Link className="cart__go-shopping-btn" to="/shop">
@@ -57,17 +65,16 @@ function CartPage() {
         <div className="total cart__total">
           <div className="total__sub">
             <span className="total__sub-text">Subtotal:</span>
-            <span className="total__sub-value">$</span>
+            <span className="total__sub-value">${subtotal}</span>
           </div>
           <div className="total__shipping">
             <span className="total__shipping-text">Shipping fee:</span>
-            <span className="total__shipping-value">$</span>
+            <span className="total__shipping-value">${shippingFee}</span>
           </div>
           <div className="total__bottom">
             <span className="total__bottom-text">Total: </span>
-            <span className="total__bottom-value">$</span>
+            <span className="total__bottom-value">${total}</span>
           </div>
-          {/* <input className="total__promo" placeholder="Promo code..." /> */}
           <button className="total__buy" type="button">
             Buy Now
           </button>

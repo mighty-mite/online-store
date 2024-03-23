@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
 import { createSelector } from '@reduxjs/toolkit';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-  addItem,
-  changeSum,
-  getTotalSum,
-} from '../../pages/cartPage/cartSlice';
+import { addItem, getTotalSum } from '../../pages/cartPage/cartSlice';
 import { CartProduct } from '../../service/types';
 import './card.scss';
 import { RootState } from '../../store';

@@ -57,6 +57,12 @@
   background-position: center center;
 }
 
+.cart__items-empty {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
 .cart__pagination-page {
   color: black;
   font-weight: 700;

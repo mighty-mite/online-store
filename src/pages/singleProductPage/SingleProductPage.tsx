@@ -6,15 +6,11 @@ import Spinner from '../../components/spinner/Spinner';
 import './singlePropuctPage.scss';
 import { Product } from '../../service/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { addItem } from '../cartPage/cartSlice';
+import { addItem, getTotalSum } from '../cartPage/cartSlice';
 import { RootState } from '../../store';
 
 function View(product: Product | undefined) {
   const dispatch = useAppDispatch();
-
-  // const cartItems = useAppSelector((state) =>
-  //   state.cart.items.map((item) => item.cartProduct)
-  // );
 
   const cartItems = createSelector(
     [(state: RootState) => state.cart.items],
@@ -29,10 +25,28 @@ function View(product: Product | undefined) {
     const cartProductsIds = arr.map((item) => item.id);
     return cartProductsIds.includes(itemId);
   };
+
   isDisabled(allCartItems, Number(productId));
   if (product === undefined) return <Spinner />;
+
   const { thumbnail, title, price, description, id, stock, brand, category } =
     product;
+
+  const onAddItem = () => {
+    dispatch(
+      addItem({
+        id,
+        title,
+        price,
+        stock,
+        brand,
+        category,
+        thumbnail,
+        description,
+      })
+    );
+    dispatch(getTotalSum());
+  };
 
   return (
     <section className="product">
@@ -47,20 +61,7 @@ function View(product: Product | undefined) {
             disabled={isDisabled(allCartItems, Number(productId))}
             className="product__add"
             type="button"
-            onClick={() =>
-              dispatch(
-                addItem({
-                  id,
-                  title,
-                  price,
-                  stock,
-                  brand,
-                  category,
-                  thumbnail,
-                  description,
-                })
-              )
-            }
+            onClick={onAddItem}
           >
             Add To Cart
           </button>

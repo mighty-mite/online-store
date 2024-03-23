@@ -26,7 +26,6 @@ interface Props {
 
 function Goods(props: Props) {
   const CARDS_PER_PAGE = 20;
-  // const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
   const [cardsOnPage, setCardsOnPage] = useState<Product[]>([]);
   const [sortMode, setSortMode] = useState('');
@@ -60,18 +59,7 @@ function Goods(props: Props) {
     [brand, category, search, minPrice, maxPrice, sortMode]
   );
 
-  // const getData = useCallback(() => {
-  //   const service = new Service();
-  //   service
-  //     .getProducts()
-  //     .then((data) => {
-  //       setAllProducts(data);
-  //     })
-  //     .catch();
-  // }, []);
-
   useEffect(() => {
-    // getData();
     dispatch(fetchProducts());
   }, [dispatch]);
 
@@ -146,18 +134,6 @@ function Goods(props: Props) {
               <MenuItem value="desc">Price DESC</MenuItem>
             </Select>
           </FormControl>
-        </div>
-        <div className="goods__top-right">
-          <button
-            className="goods__layout-button goods__layout-button--tile chosen"
-            type="button"
-            aria-label="tile-layout"
-          />
-          <button
-            className="goods__layout-button goods__layout-button--list"
-            type="button"
-            aria-label="list-layout"
-          />
         </div>
       </div>
       <div className="goods__wrapper">
