@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Service from '../../service/Service';
 
 interface InitialState {
@@ -41,6 +41,3 @@ const goodsSlice = createSlice({
 
 const { actions, reducer } = goodsSlice;
 export default reducer;
-// export const {
-
-// }

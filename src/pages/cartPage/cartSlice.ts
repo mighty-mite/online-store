@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CartProduct } from '../../service/types';
+import { Product } from '../../service/types';
 
 export interface InitialState {
   items: PushedItem[];
@@ -10,7 +10,7 @@ export interface InitialState {
 }
 
 export interface PushedItem {
-  cartProduct: CartProduct;
+  cartProduct: Product;
   amount: number;
   id: number;
   sum: number;
@@ -31,7 +31,7 @@ const cartSlice = createSlice({
       reducer: (state, action: PayloadAction<PushedItem>) => {
         state.items.push(action.payload);
       },
-      prepare: (cartProduct: CartProduct) => {
+      prepare: (cartProduct: Product) => {
         const amount = 1;
         const { id } = cartProduct;
         const sum = cartProduct.price;
